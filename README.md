@@ -11,6 +11,23 @@
   <img src="https://img.shields.io/github/followers/WaelYTz?style=for-the-badge&logo=github&color=ffff00&labelColor=000000&label=FOLLOWERS" alt="followers"/>
 </p>
 
+<p align="center">
+  <b>Hi, I'm Wael</b>: ML engineer and AI-agent builder. I build forecasting models and multi-agent LLM systems, and compete on Kaggle and Zindi.<br/>
+  Open to collaborations on machine learning, AI agents and data competitions.
+</p>
+
+<!-- ═══════════════════════════════ ENCOUNTER ═══════════════════════════════ -->
+<p align="center"><img src="assets/ut-h-encounter.svg" width="100%" alt="Encounter"/></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/encounter.svg" width="100%" alt="encounter results"/></p>
+
+<p align="center">
+  <a href="https://github.com/WaelYTz/WaelYTz/issues/new?title=encounter%7Cfight&body=%2A+Press+%22Create%22+and+the+SOUL+will+answer+in+a+few+seconds."><img src="assets/btn-fight.svg" width="23%" alt="FIGHT"/></a>
+  <a href="https://github.com/WaelYTz/WaelYTz/issues/new?title=encounter%7Cact&body=%2A+Press+%22Create%22+and+the+SOUL+will+answer+in+a+few+seconds."><img src="assets/btn-act.svg" width="23%" alt="ACT"/></a>
+  <a href="https://github.com/WaelYTz/WaelYTz/issues/new?title=encounter%7Citem&body=%2A+Press+%22Create%22+and+the+SOUL+will+answer+in+a+few+seconds."><img src="assets/btn-item.svg" width="23%" alt="ITEM"/></a>
+  <a href="https://github.com/WaelYTz/WaelYTz/issues/new?title=encounter%7Cmercy&body=%2A+Press+%22Create%22+and+the+SOUL+will+answer+in+a+few+seconds."><img src="assets/btn-mercy.svg" width="23%" alt="MERCY"/></a>
+</p>
+
 <!-- ═══════════════════════════════ WHOAMI ═══════════════════════════════ -->
 <p align="center"><img src="assets/ut-h-whoami.svg" width="100%" alt="Who am I"/></p>
 
@@ -33,60 +50,15 @@ wael@github:~$ ./now --status
 
 <p align="center"><img src="assets/ut-h-leaderboard.svg" width="100%" alt="Leaderboard log"/></p>
 
-<table>
-  <tr>
-    <th align="left">year</th><th align="left">arena</th><th align="left">challenge</th><th align="left">run</th><th align="left">code</th>
-  </tr>
-  <tr>
-    <td><code>2026</code></td>
-    <td>🟦 Kaggle · IEEE Big Data Cup</td>
-    <td><b>TrafficFlowBench</b>: reconstruct, forecast & explain 10 freeway corridors</td>
-    <td>strictly causal pipeline, post-T verified · full write-up in the repo</td>
-    <td><a href="https://github.com/WaelYTz/trafficflowbench-2026">trafficflowbench-2026</a></td>
-  </tr>
-  <tr>
-    <td><code>2026</code></td>
-    <td>🟧 Zindi · Bias Bounty</td>
-    <td><b>Mapping Equity</b>: audit the bias in a wildfire escape-route map</td>
-    <td>found <b>2.88 M residents</b> behind a single road link; entry for Best Bias Discovery & Best Documentation</td>
-    <td><a href="https://github.com/WaelYTz/resist-one-road-out">resist-one-road-out</a></td>
-  </tr>
-  <tr>
-    <td><code>2026</code></td>
-    <td>🧬 NeurIPS · Virtual Embryo Challenge</td>
-    <td><b>Leaderboard insights</b>: which metric to improve next, and what it is worth in rank</td>
-    <td>dependency-free tool + daily anonymised snapshots via GitHub Actions</td>
-    <td><a href="https://github.com/WaelYTz/vec-leaderboard-insights">vec-leaderboard-insights</a></td>
-  </tr>
-</table>
+<p align="center"><img src="assets/ut-leaderboard.svg" width="100%" alt="Leaderboard log: TrafficFlowBench, Zindi Bias Bounty, Virtual Embryo Challenge"/></p>
+
+<p align="center"><sub>code: <a href="https://github.com/WaelYTz/trafficflowbench-2026">trafficflowbench-2026</a> · <a href="https://github.com/WaelYTz/resist-one-road-out">resist-one-road-out</a> · <a href="https://github.com/WaelYTz/vec-leaderboard-insights">vec-leaderboard-insights</a></sub></p>
 
 <!-- ═══════════════════════════════ ART OF WAR ═══════════════════════════════ -->
 
 <p align="center"><img src="assets/ut-h-artofwar.svg" width="100%" alt="The Art of War"/></p>
 
-<table>
-  <tr><th align="left">Sun Tzu <sub>(tr. Lionel Giles, 1910)</sub></th><th align="left">on the leaderboard</th></tr>
-  <tr>
-    <td><i>"If you know the enemy and know yourself, you need not fear the result of a hundred battles."</i></td>
-    <td>Know the metric, know your validation set. Read the scorer before you write the model.</td>
-  </tr>
-  <tr>
-    <td><i>"All warfare is based on deception."</i></td>
-    <td>A leaderboard can lie. Trust the validation set you built honestly.</td>
-  </tr>
-  <tr>
-    <td><i>"Let your plans be dark and impenetrable as night, and when you move, fall like a thunderbolt."</i></td>
-    <td>Ship quietly, strike once. Let the work speak on release day.</td>
-  </tr>
-  <tr>
-    <td><i>"The victorious strategist only seeks battle after the victory has been won."</i></td>
-    <td>Win on validation first. Submit second.</td>
-  </tr>
-  <tr>
-    <td><i>"He will win who knows when to fight and when not to fight."</i></td>
-    <td>Some metrics are identities. Know which levers not to pull.</td>
-  </tr>
-</table>
+<p align="center"><img src="assets/ut-artofwar.svg" width="100%" alt="The Art of War, leaderboard edition"/></p>
 
 <!-- ═══════════════════════════════ TECHNOBLADE ═══════════════════════════════ -->
 
@@ -132,13 +104,9 @@ wael@github:~$ save --slot 0
   <a href="https://github.com/WaelYTz/ML_AlgorithmsFromScratch"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-ML_AlgorithmsFromScratch.svg" width="49%" alt="ML_AlgorithmsFromScratch"/></a>
 </p>
 
-| | project | what it does |
-|---|---|---|
-| 🚦 | [**trafficflowbench-2026**](https://github.com/WaelYTz/trafficflowbench-2026) | XGBoost + 14-net convolutional imputer for traffic state, space-time CNN queue forecasting, and a proof that the physics metric is an identity |
-| 🤖 | [**Refactoring Swarm**](https://github.com/WaelYTz/Refactoring-Swarm-El-equipe) | Multi-agent LLM system (Gemini · LangChain · LangGraph) that detects, fixes and validates Python code-quality issues in a self-healing loop |
-| 🔥 | [**One road out**](https://github.com/WaelYTz/resist-one-road-out) | Shows how an "escape-route" road filter hides second exits for wildfire-exposed communities, and why the coverage score misses it |
-| 🧬 | [**VEC Leaderboard Insights**](https://github.com/WaelYTz/vec-leaderboard-insights) | Headroom, percentile and rank what-ifs from a NeurIPS challenge leaderboard |
-| 🧮 | [**ML from scratch**](https://github.com/WaelYTz/ML_AlgorithmsFromScratch) | Linear and logistic regression, decision trees and random forests, written from first principles |
+<p align="center"><img src="assets/ut-h-recent.svg" width="100%" alt="Recent activity"/></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/feed.svg" width="100%" alt="recent public activity"/></p>
 
 <!-- ═══════════════════════════════ STACK ═══════════════════════════════ -->
 

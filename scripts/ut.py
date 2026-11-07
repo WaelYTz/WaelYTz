@@ -103,7 +103,8 @@ def clean(s: str) -> str:
     """Keep only drawable characters (emoji etc. dropped, runs of spaces collapsed to one)."""
     s = s.replace("—", "-").replace("–", "-").replace("…", "...").replace("★", "*")
     s = "".join(ch if ch in _G else " " for ch in s)
-    return " ".join(s.split()) if s.strip() else ""
+    lead = len(s) - len(s.lstrip(" "))
+    return " " * lead + " ".join(s.split()) if s.strip() else ""
 
 
 def width(s: str, scale: float) -> float:

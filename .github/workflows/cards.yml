@@ -6,18 +6,38 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+  issues:
+    types: [opened]
 
 permissions:
   contents: write
+  issues: write
+
+concurrency:
+  group: profile-cards
+  cancel-in-progress: false
 
 jobs:
   generate:
+    if: github.event_name != 'issues' || startsWith(github.event.issue.title, 'encounter|')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate stats, language, activity and project cards
+      - name: Play the encounter (visitor opened an encounter issue)
+        if: github.event_name == 'issues'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 scripts/encounter.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/encounter.json
+          git commit -m "encounter: a visitor played" || exit 0
+          for i in 1 2 3; do git push && break; git pull --rebase; done
+
+      - name: Generate cards
         run: python3 scripts/cards.py ${{ github.repository_owner }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

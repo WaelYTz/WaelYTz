@@ -201,12 +201,72 @@ def journey_card(u: dict) -> str:
 
     tail = ""                                                             # just the SOUL, no tail
     head = mover(0, ut.soul(-1, 0, 2))
-    body = (ut.box(0, 0, W, H) + ut.text(f"* {total} contributions this year.", 30, 26, 2.6)
+    body = (ut.box(0, 0, W, H) + ut.text(f"* {total} public contributions this year.", 30, 26, 2.6)
             + ut.text("less", W - 250, 56, 1.6, ut.GREY)
             + "".join(f'<rect x="{W - 206 + i * 16}" y="54" width="12" height="12" fill="{c}"/>'
                       for i, c in enumerate([EMPTY, "#5a5a5a", "#b4b4b4", "#ffffff", ut.YELLOW]))
             + ut.text("more", W - 120, 56, 1.6, ut.GREY) + "".join(cells) + tail + head)
     return ut.svg(W, H, body, f"{total} contributions this year; the SOUL hunts them like the contribution snake")
+
+def encounter_card(st: dict) -> str:
+    """Live result of the playable encounter (data/encounter.json, updated by scripts/encounter.py)."""
+    W, H = 940, 200
+    tot = sum(st.get(k, 0) for k in ("fight", "act", "item", "mercy"))
+    if tot == 0:
+        lines = [("* Nobody has come yet.", ut.WHITE), ("* Choose an action below to start the encounter.", ut.WHITE)]
+    else:
+        last = st.get("last") or {}
+        lines = [(f"* {st.get('mercy', 0)} showed MERCY.  {st.get('fight', 0)} chose to FIGHT.", ut.WHITE),
+                 (f"* {st.get('act', 0)} ACTed.  {st.get('item', 0)} used an ITEM.", ut.WHITE),
+                 (f"* Last: {last.get('user', '?')} chose {last.get('action', '?').upper()}.", ut.YELLOW)]
+    body = ut.box(0, 0, W, H) + "".join(ut.text(t, 34, 34 + 40 * i, 2.8, c) for i, (t, c) in enumerate(lines))
+    body += ut.text("Pick a button below: it opens an issue and the SOUL answers.", 34, H - 36, 1.8, ut.GREY)
+    return ut.svg(W, H, body, f"Encounter: {tot} visitors have played")
+
+
+def fetch_events(login: str) -> list:
+    req = urllib.request.Request(f"https://api.github.com/users/{login}/events/public?per_page=50",
+                                 headers={"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+                                          "Accept": "application/vnd.github+json", "User-Agent": "profile-cards"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return json.load(r)
+
+
+def describe(e: dict) -> str | None:
+    repo, t, pl = e["repo"]["name"].split("/")[-1], e["type"], e.get("payload", {})
+    if repo.lower() == "waelytz" and t != "WatchEvent":
+        return None                                                      # skip the profile repo's own bot traffic
+    return {"PushEvent": f"Pushed to {repo}",
+            "CreateEvent": f"Created {pl.get('ref_type', 'repo')} {pl.get('ref') or ''} in {repo}".replace("  ", " "),
+            "PullRequestEvent": f"{pl.get('action', 'opened').capitalize()} a PR in {repo}",
+            "IssuesEvent": f"{pl.get('action', 'opened').capitalize()} an issue in {repo}",
+            "WatchEvent": f"Starred {repo}", "ForkEvent": f"Forked {repo}",
+            "ReleaseEvent": f"Released {repo}", "PublicEvent": f"Made {repo} public"}.get(t)
+
+
+def ago(ts: str) -> str:
+    d = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    return f"{d.days}d ago" if d.days else f"{max(1, d.seconds // 3600)}h ago"
+
+
+def feed_card(events: list) -> str:
+    W, rows, seen = 940, [], set()
+    for e in events:
+        txt = describe(e)
+        if not txt or (txt in seen):
+            continue
+        seen.add(txt); rows.append((txt, ago(e["created_at"])))
+        if len(rows) == 5:
+            break
+    if not rows:
+        rows = [("Nothing public yet. Stay tuned.", "")]
+    H = 70 + 36 * len(rows)
+    body = ut.box(0, 0, W, H) + ut.text("* Recent activity", 30, 24, 2.6)
+    for i, (txt, when) in enumerate(rows):
+        y = 66 + 36 * i
+        body += ut.text(f"* {txt[:60]}", 34, y, 2.2) + ut.text(when, W - 34, y, 2.0, ut.GREY, "end")
+    return ut.svg(W, H, body, "Recent public activity")
+
 
 def wrap(s: str, n: int, lines: int) -> list[str]:
     out, cur = [], ""
@@ -238,6 +298,11 @@ def main():
     OUT.mkdir(exist_ok=True)
     cards = {"stat.svg": stat_card(u), "items.svg": items_card(u), "activity.svg": activity_card(u), "soul-hunt.svg": journey_card(u)}
     byname = {r["name"]: r for r in u["repositories"]["nodes"]}
+    st_path = Path("data/encounter.json")
+    cards["encounter.svg"] = encounter_card(json.loads(st_path.read_text(encoding="utf-8")) if st_path.exists() else {})
+    ev = (json.load(open(sys.argv[sys.argv.index("--events") + 1], encoding="utf-8")) if "--events" in sys.argv
+          else fetch_events(login))
+    cards["feed.svg"] = feed_card(ev)
     for name in FEATURED:
         if name in byname:
             cards[f"repo-{name}.svg"] = repo_card(byname[name])

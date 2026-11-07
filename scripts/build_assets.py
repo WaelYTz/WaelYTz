@@ -59,7 +59,7 @@ def footer() -> str:
 
 HEADINGS = {"ut-h-whoami.svg": "* WHO AM I", "ut-h-leaderboard.svg": "* LEADERBOARD LOG", "ut-h-artofwar.svg": "* THE ART OF WAR",
             "ut-h-technoblade.svg": "* TECHNOBLADE NEVER DIES", "ut-h-determination.svg": "* DETERMINATION",
-            "ut-h-projects.svg": "* PROJECTS", "ut-h-stack.svg": "* STACK", "ut-h-stat.svg": "* STAT", "ut-h-activity.svg": "* LAST 31 DAYS"}
+            "ut-h-projects.svg": "* PROJECTS", "ut-h-stack.svg": "* STACK", "ut-h-stat.svg": "* STAT", "ut-h-encounter.svg": "* ENCOUNTER", "ut-h-recent.svg": "* RECENT ACTIVITY", "ut-h-activity.svg": "* LAST 31 DAYS"}
 
 
 def heading(label: str) -> str:
@@ -68,11 +68,79 @@ def heading(label: str) -> str:
     return ut.svg(W, H, body, label.replace("* ", ""), ut.BEAT)
 
 
+# ───────────────────────── encounter buttons (each is a link in the README) ─────────────────────────
+ICONS = {
+    "FIGHT": ["......##", ".....###", "....###.", "#..###..", ".####...", "..##....", ".####...", "##..#..."],
+    "ACT": [".#######.", "#.......#", "#.#.#.#.#", "#.......#", ".###.###.", "...##....", "..##.....", ".##......"],
+    "ITEM": ["...###...", "..#...#..", "...###...", ".#######.", "#.......#", "#.#####.#", "#.......#", ".#######."],
+    "MERCY": ["##.....##", ".##...##.", "..##.##..", "...###...", "..##.##..", ".##...##.", "##.....##", "........."],
+}
+
+
+def button(label: str) -> str:
+    W, H = 220, 70
+    body = (f'<rect x="3" y="3" width="{W - 6}" height="{H - 6}" fill="#000" stroke="{ut.ORANGE}" stroke-width="5"/>'
+            + ut.sprite(ICONS[label], 22, 23, 3, {"#": ut.ORANGE})
+            + ut.text(label, 132, 25, 3.2, ut.ORANGE, "middle"))
+    return ut.svg(W, H, body, label)
+
+
+# ───────────────────────── leaderboard log and the Art of War as pixel dialog boxes ─────────────────────────
+LOG = [
+    ("* 2026 - Kaggle - IEEE Big Data Cup", "TrafficFlowBench: reconstruct, forecast & explain", "10 freeway corridors. Strictly causal, post-T verified."),
+    ("* 2026 - Zindi - Bias Bounty", "Mapping Equity: found 2.88M residents behind a", "single road link. Best Bias Discovery & Documentation entry."),
+    ("* 2026 - NeurIPS - Virtual Embryo Challenge", "Leaderboard insights: which metric to improve next,", "and what it is worth in rank."),
+]
+WAR = [
+    ("If you know the enemy and know yourself, you need not fear the result of a hundred battles.",
+     "Know the metric, know your validation set."),
+    ("All warfare is based on deception.", "A leaderboard can lie. Trust the validation you built honestly."),
+    ("Let your plans be dark and impenetrable as night, and when you move, fall like a thunderbolt.",
+     "Ship quietly, strike once."),
+    ("The victorious strategist only seeks battle after the victory has been won.", "Win on validation first. Submit second."),
+    ("He will win who knows when to fight and when not to fight.", "Some metrics are identities. Know which levers not to pull."),
+]
+
+
+def wrap(s: str, n: int) -> list[str]:
+    out, cur = [], ""
+    for w in s.split():
+        if len(cur) + len(w) + (1 if cur else 0) > n:
+            out.append(cur); cur = w
+        else:
+            cur = f"{cur} {w}".strip()
+    return out + [cur]
+
+
+def leaderboard() -> str:
+    W, lines, y = 940, [], 30
+    for head, a, b in LOG:
+        lines.append(ut.text(head, 34, y, 2.6, ut.YELLOW)); y += 30
+        lines.append(ut.text("  " + a, 34, y, 2.2, raw=False)); y += 24
+        lines.append(ut.text("  " + b, 34, y, 2.2)); y += 40
+    H = y - 6
+    return ut.svg(W, H, ut.box(0, 0, W, H) + "".join(lines), "Leaderboard log")
+
+
+def artofwar() -> str:
+    W, lines, y = 940, [], 30
+    lines.append(ut.text("Sun Tzu - The Art of War (tr. Lionel Giles, 1910)", 34, y, 2.0, ut.GREY)); y += 40
+    for quote, note in WAR:
+        for i, part in enumerate(wrap(quote, 58)):
+            lines.append(ut.text(("* " if i == 0 else "  ") + part, 34, y, 2.3)); y += 26
+        lines.append(ut.text("  > " + note, 34, y, 2.0, ut.YELLOW)); y += 40
+    H = y - 6
+    return ut.svg(W, H, ut.box(0, 0, W, H) + "".join(lines), "The Art of War, leaderboard edition")
+
+
 if __name__ == "__main__":
     for name, label in HEADINGS.items():
         (OUT / name).parent.mkdir(exist_ok=True)
         (OUT / name).write_text(heading(label), encoding="utf-8")
     OUT.mkdir(exist_ok=True)
-    for name, fn in (("ut-save.svg", header), ("ut-technoblade.svg", technoblade), ("ut-footer.svg", footer)):
+    for lab in ICONS:
+        (OUT / f"btn-{lab.lower()}.svg").write_text(button(lab), encoding="utf-8")
+    for name, fn in (("ut-save.svg", header), ("ut-technoblade.svg", technoblade), ("ut-footer.svg", footer),
+                     ("ut-leaderboard.svg", leaderboard), ("ut-artofwar.svg", artofwar)):
         (OUT / name).write_text(fn(), encoding="utf-8")
         print("wrote", OUT / name)
