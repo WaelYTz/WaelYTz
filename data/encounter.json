@@ -1,14 +1,19 @@
 {
-  "fight": 0,
+  "fight": 1,
   "act": 0,
   "item": 0,
   "mercy": 1,
   "last": {
     "user": "WaelYTz",
-    "action": "mercy",
-    "at": "2026-11-07T20:04:20+00:00"
+    "action": "fight",
+    "at": "2026-11-07T20:06:21+00:00"
   },
   "recent": [
+    {
+      "user": "WaelYTz",
+      "action": "fight",
+      "at": "2026-11-07T20:06:21+00:00"
+    },
     {
       "user": "WaelYTz",
       "action": "mercy",
