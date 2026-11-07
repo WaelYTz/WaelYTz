@@ -117,16 +117,16 @@ def langs_card(u: dict) -> str:
     x, bars = 22.0, []
     for name, (size, col) in top:
         w = 426 * size / tot
-        bars.append(f'<rect x="{x:.1f}" y="52" width="{max(w, 2):.1f}" height="12" fill="{col}" style="transform-origin:22px 58px;animation:grow 1s ease-out backwards"/>')
+        bars.append(f'<rect x="{x:.1f}" y="74" width="{max(w, 2):.1f}" height="12" fill="{col}" style="transform-origin:22px 80px;animation:grow 1s ease-out backwards"/>')
         x += w
     legend = []
     for i, (name, (size, col)) in enumerate(top):
-        cx, cy = 22 + (i % 2) * 220, 92 + (i // 2) * 26
+        cx, cy = 22 + (i % 2) * 220, 126 + (i // 2) * 28
         legend.append(f'<g class="f" style="animation-delay:{.1 * i:.2f}s"><circle cx="{cx + 6}" cy="{cy - 4}" r="5.5" fill="{col}"/>'
                       f'<text x="{cx + 18}" y="{cy}" class="v" style="font-weight:600">{escape(name)}</text>'
                       f'<text x="{cx + 200}" y="{cy}" class="m" text-anchor="end">{100 * size / tot:.1f}%</text></g>')
-    body = f'<clipPath id="bar"><rect x="22" y="52" width="426" height="12" rx="6"/></clipPath><g clip-path="url(#bar)">{"".join(bars)}</g>' + "".join(legend)
-    return frame(470, 175, "🧬 languages", body)
+    body = f'<clipPath id="bar"><rect x="22" y="74" width="426" height="12" rx="6"/></clipPath><g clip-path="url(#bar)">{"".join(bars)}</g>' + "".join(legend)
+    return frame(470, 215, "🧬 languages", body)
 
 
 def calendar(u: dict) -> list[tuple[str, int]]:
