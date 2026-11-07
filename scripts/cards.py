@@ -1,7 +1,11 @@
-"""Self-hosted profile cards (no third-party image services).
+"""Self-hosted Undertale-style profile cards (pixel font, no third-party image services).
 
-Fetches public data for the profile owner from the GitHub GraphQL API and writes animated SVG cards to dist/:
-  stats.svg, langs.svg, streak.svg, activity.svg, repo-<name>.svg
+Recreates the game's overworld menu: a small status box (name / LV / HP / G), the ITEM-STAT-CELL menu with the SOUL
+cursor, and the big page on the right. Data is the owner's public GitHub activity (GraphQL API).
+  stat.svg      STAT page   (AT = commits (+PRs), DF = public repos (+followers), EXP = contributions, GOLD = stars)
+  items.svg     ITEM page   (languages by share, USE / INFO / DROP row)
+  activity.svg  last 31 days of contributions as pixel bars
+  repo-<name>.svg  project dialog boxes
 
   GITHUB_TOKEN=... python scripts/cards.py WaelYTz            # in GitHub Actions
   python scripts/cards.py WaelYTz --data data.json            # local preview from a saved API response
@@ -13,14 +17,14 @@ import json
 import os
 import sys
 import urllib.request
-from html import escape
 from pathlib import Path
 
-FEATURED = ["trafficflowbench-2026", "Refactoring-Swarm-El-equipe", "resist-one-road-out", "vec-leaderboard-insights"]
+import ut
+
+FEATURED = ["trafficflowbench-2026", "Refactoring-Swarm-El-equipe", "resist-one-road-out", "vec-leaderboard-insights",
+            "ML_AlgorithmsFromScratch"]
 OUT = Path("dist")
-BG, PANEL, TEXT, MUTED = "#0d1117", "#161b22", "#e6edf3", "#8b949e"
-A1, A2, A3 = "#7c3aed", "#c026d3", "#c4b5fd"
-FONT = "'JetBrains Mono','Fira Code',Consolas,'Segoe UI',monospace"
+NAME = "Wael"
 
 QUERY = """
 query($login: String!) {
@@ -28,7 +32,6 @@ query($login: String!) {
     login name
     followers { totalCount }
     pullRequests { totalCount }
-    issues { totalCount }
     repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false) {
       totalCount
       nodes {
@@ -57,156 +60,122 @@ def fetch(login: str) -> dict:
     return d["data"]["user"]
 
 
-def frame(w: int, h: int, title: str, body: str) -> str:
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-label="{escape(title)}">
-<defs>
-  <linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{A1}"/><stop offset="1" stop-color="{A2}"/></linearGradient>
-  <linearGradient id="gv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{A2}" stop-opacity=".55"/><stop offset="1" stop-color="{A1}" stop-opacity="0"/></linearGradient>
-  <filter id="glow"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-</defs>
-<style>
-  text {{ font-family: {FONT}; fill: {TEXT}; }}
-  .t {{ font-size: 15px; font-weight: 700; fill: {A3}; }}
-  .m {{ fill: {MUTED}; font-size: 12px; }}
-  .v {{ font-size: 13px; font-weight: 700; }}
-  .f {{ animation: fade .6s ease-out backwards; }}
-  @keyframes fade {{ from {{ opacity: 0; transform: translateY(4px); }} to {{ opacity: 1; transform: none; }} }}
-  @keyframes grow {{ from {{ transform: scaleX(0); }} to {{ transform: scaleX(1); }} }}
-  @keyframes dash {{ from {{ stroke-dashoffset: var(--len); }} to {{ stroke-dashoffset: var(--off); }} }}
-</style>
-<rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="12" fill="{BG}" stroke="url(#g)" stroke-opacity=".7"/>
-<rect x="1" y="1" width="{w - 2}" height="3" rx="1.5" fill="url(#g)"/>
-<text x="22" y="34" class="t">{escape(title)}</text>
-{body}
-</svg>"""
-
-
-def stats_card(u: dict) -> str:
-    repos = u["repositories"]["nodes"]
+def numbers(u: dict) -> dict:
     cc = u["contributionsCollection"]
-    rows = [("contributions (12 mo)", cc["contributionCalendar"]["totalContributions"]),
-            ("commits (12 mo)", cc["totalCommitContributions"] + cc["restrictedContributionsCount"]),
-            ("pull requests", u["pullRequests"]["totalCount"]),
-            ("public repos", u["repositories"]["totalCount"]),
-            ("stars earned", sum(r["stargazerCount"] for r in repos)),
-            ("followers", u["followers"]["totalCount"])]
-    body = []
-    for i, (k, v) in enumerate(rows):
-        y = 64 + i * 24
-        body.append(f'<g class="f" style="animation-delay:{.12 * i:.2f}s"><circle cx="28" cy="{y - 4}" r="3.5" fill="url(#g)" filter="url(#glow)"/>'
-                    f'<text x="40" y="{y}" class="m">{k}</text><text x="250" y="{y}" class="v" text-anchor="end">{v:,}</text></g>')
-    total = rows[0][1]
-    r, c = 52, 2 * 3.14159 * 52
-    frac = min(1.0, total / max(total, 500))
-    body.append(f'<g transform="translate(360 112)"><circle r="{r}" fill="none" stroke="{PANEL}" stroke-width="10"/>'
-                f'<circle r="{r}" fill="none" stroke="url(#g)" stroke-width="10" stroke-linecap="round" transform="rotate(-90)" filter="url(#glow)" '
-                f'stroke-dasharray="{c:.1f}" style="--len:{c:.1f};--off:{c * (1 - frac):.1f};stroke-dashoffset:{c * (1 - frac):.1f};animation:dash 1.4s ease-out"/>'
-                f'<text y="2" text-anchor="middle" style="font-size:22px;font-weight:800">{total:,}</text>'
-                f'<text y="22" text-anchor="middle" class="m" style="font-size:10px">contributions</text></g>')
-    return frame(470, 215, "⚡ telemetry", "\n".join(body))
+    exp = cc["contributionCalendar"]["totalContributions"]
+    return dict(exp=exp, nxt=100 - exp % 100,
+                at=cc["totalCommitContributions"] + cc["restrictedContributionsCount"], at_b=u["pullRequests"]["totalCount"],
+                df=u["repositories"]["totalCount"], df_b=u["followers"]["totalCount"],
+                gold=sum(r["stargazerCount"] for r in u["repositories"]["nodes"]))
 
 
-def langs_card(u: dict) -> str:
-    agg: dict[str, list] = {}
+def side_panel(n: dict, cursor: str) -> str:
+    """Left column of the overworld menu: status box + ITEM / STAT / CELL with the SOUL on `cursor`."""
+    s = 2.6
+    status = (ut.box(20, 20, 220, 150) + ut.text(NAME, 44, 44, 3.2)
+              + ut.text("LV  20", 44, 88, 2.2) + ut.text("HP  99/99", 44, 112, 2.2) + ut.text(f"G   {n['gold']}", 44, 136, 2.2))
+    menu = ut.box(20, 186, 220, 150)
+    for i, label in enumerate(("ITEM", "STAT", "CELL")):
+        y = 214 + 38 * i
+        menu += ut.text(label, 84, y, s)
+        if label == cursor:
+            menu += ut.soul(48, y + 1, 2.6, 'class="beat"')
+    return status + menu
+
+
+def stat_card(u: dict) -> str:
+    W, H = 940, 356
+    n = numbers(u)
+    x, x2, s = 300, 600, 2.6
+    page = (ut.box(256, 20, 664, 316) + ut.text(f'"{NAME}"', x, 48, 3.2)
+            + ut.text("LV  20", x, 96, s) + ut.text("HP  99 / 99", x, 126, s)
+            + ut.text(f"AT  {n['at']}({n['at_b']})", x, 172, s) + ut.text(f"EXP: {n['exp']}", x2, 172, s)
+            + ut.text(f"DF  {n['df']}({n['df_b']})", x, 202, s) + ut.text(f"NEXT: {n['nxt']}", x2, 202, s)
+            + ut.text("WEAPON: Python", x, 240, s) + ut.text("ARMOR: PyTorch", x, 268, s)
+            + ut.text(f"GOLD: {n['gold']}", x, 308, s) + ut.text("KILLS: 0", x2, 308, s))
+    return ut.svg(W, H, side_panel(n, "STAT") + page, "Undertale STAT menu with GitHub stats", ut.BEAT)
+
+
+def items_card(u: dict) -> str:
+    W, H = 940, 356
+    n = numbers(u)
+    agg: dict[str, int] = {}
     for r in u["repositories"]["nodes"]:
         for e in r["languages"]["edges"]:
-            a = agg.setdefault(e["node"]["name"], [0, e["node"]["color"] or A3])
-            a[0] += e["size"]
-    top = sorted(agg.items(), key=lambda kv: -kv[1][0])[:6]
-    tot = sum(v[0] for _, v in top) or 1
-    x, bars = 22.0, []
-    for name, (size, col) in top:
-        w = 426 * size / tot
-        bars.append(f'<rect x="{x:.1f}" y="74" width="{max(w, 2):.1f}" height="12" fill="{col}" style="transform-origin:22px 80px;animation:grow 1s ease-out backwards"/>')
-        x += w
-    legend = []
-    for i, (name, (size, col)) in enumerate(top):
-        cx, cy = 22 + (i % 2) * 220, 126 + (i // 2) * 28
-        legend.append(f'<g class="f" style="animation-delay:{.1 * i:.2f}s"><circle cx="{cx + 6}" cy="{cy - 4}" r="5.5" fill="{col}"/>'
-                      f'<text x="{cx + 18}" y="{cy}" class="v" style="font-weight:600">{escape(name)}</text>'
-                      f'<text x="{cx + 200}" y="{cy}" class="m" text-anchor="end">{100 * size / tot:.1f}%</text></g>')
-    body = f'<clipPath id="bar"><rect x="22" y="74" width="426" height="12" rx="6"/></clipPath><g clip-path="url(#bar)">{"".join(bars)}</g>' + "".join(legend)
-    return frame(470, 215, "🧬 languages", body)
+            agg[e["node"]["name"]] = agg.get(e["node"]["name"], 0) + e["size"]
+    top = sorted(agg.items(), key=lambda kv: -kv[1])[:6]
+    tot = sum(v for _, v in top) or 1
+    page = ut.box(256, 20, 664, 316)
+    for i, (name, size) in enumerate(top):
+        y = 46 + 38 * i
+        page += ut.text(name, 330, y, 2.6) + ut.text(f"{100 * size / tot:.1f}%", 880, y, 2.6, anchor="end")
+    page += ut.text("USE", 330, 290, 2.6) + ut.text("INFO", 520, 290, 2.6) + ut.text("DROP", 720, 290, 2.6)
+    page += ut.soul(296, 47, 2.6, 'class="beat"')
+    return ut.svg(W, H, side_panel(n, "ITEM") + page, "Undertale ITEM menu with languages", ut.BEAT)
 
 
 def calendar(u: dict) -> list[tuple[str, int]]:
-    days = [(d["date"], d["contributionCount"]) for w in u["contributionsCollection"]["contributionCalendar"]["weeks"] for d in w["contributionDays"]]
+    days = [(d["date"], d["contributionCount"]) for w in u["contributionsCollection"]["contributionCalendar"]["weeks"]
+            for d in w["contributionDays"]]
     today = dt.date.today().isoformat()
     return [d for d in days if d[0] <= today]
 
 
-def streak_card(u: dict) -> str:
-    days = calendar(u)
-    cur = 0
-    for i, (_, n) in enumerate(reversed(days)):
-        if n > 0:
-            cur += 1
-        elif i > 0:            # today may still be empty
-            break
-    best = run = 0
-    for _, n in days:
-        run = run + 1 if n > 0 else 0
-        best = max(best, run)
-    active = sum(1 for _, n in days if n > 0)
-    cols = [("current streak", f"{cur} d"), ("longest streak", f"{best} d"), ("active days (12 mo)", f"{active}")]
-    body = []
-    for i, (k, v) in enumerate(cols):
-        cx = 85 + i * 150
-        body.append(f'<g class="f" style="animation-delay:{.15 * i:.2f}s"><text x="{cx}" y="92" text-anchor="middle" '
-                    f'style="font-size:30px;font-weight:800;fill:url(#g)" filter="url(#glow)">{v}</text>'
-                    f'<text x="{cx}" y="118" text-anchor="middle" class="m">{k}</text></g>')
-    body.append(f'<text x="235" y="150" text-anchor="middle" class="m" style="font-size:10px">{days[0][0]} → {days[-1][0]}</text>')
-    return frame(470, 165, "🔥 streak", "\n".join(body))
-
-
 def activity_card(u: dict) -> str:
+    W, H = 940, 236
     days = calendar(u)[-31:]
-    w, h, x0, y0, ch = 940, 200, 30, 50, 120
-    mx = max(1, max(n for _, n in days))
-    step = (w - 2 * x0) / (len(days) - 1)
-    pts = [(x0 + i * step, y0 + ch - ch * n / mx) for i, (_, n) in enumerate(days)]
-    line = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
-    area = f"{x0},{y0 + ch} " + line + f" {pts[-1][0]:.1f},{y0 + ch}"
-    dots = "".join(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3" fill="#fff" class="f" style="animation-delay:{.02 * i:.2f}s"/>' for i, (x, y) in enumerate(pts))
-    grid = "".join(f'<line x1="{x0}" x2="{w - x0}" y1="{y0 + ch * k / 4:.1f}" y2="{y0 + ch * k / 4:.1f}" stroke="{PANEL}"/>' for k in range(5))
-    labels = (f'<text x="{x0}" y="{h - 12}" class="m">{days[0][0]}</text>'
-              f'<text x="{w - x0}" y="{h - 12}" class="m" text-anchor="end">{days[-1][0]}</text>'
-              f'<text x="{w - x0}" y="34" class="m" text-anchor="end">peak {mx}/day · {sum(n for _, n in days)} in 31 days</text>')
-    body = (grid + f'<polygon points="{area}" fill="url(#gv)" class="f"/>'
-            f'<polyline points="{line}" fill="none" stroke="url(#g)" stroke-width="3" stroke-linejoin="round" filter="url(#glow)" '
-            f'stroke-dasharray="3000" style="--len:3000;--off:0;animation:dash 2s ease-out"/>' + dots + labels)
-    return frame(w, h, "📈 last 31 days", body)
+    mx = max(1, max(c for _, c in days))
+    x0, base, ch, bw, gap = 44, 196, 120, 22, 5.6
+    body = [ut.box(0, 0, W, H), ut.text("* Last 31 days", 30, 24, 2.6),
+            ut.text(f"PEAK {mx} - TOTAL {sum(c for _, c in days)}", W - 30, 26, 2.2, ut.GREY, "end")]
+    for i, (_, c) in enumerate(days):
+        x = x0 + i * (bw + gap)
+        if c == 0:
+            body.append(f'<rect x="{x:.1f}" y="{base - 4}" width="{bw}" height="4" fill="#444"/>')
+            continue
+        h = max(8.0, round(ch * c / mx / 4) * 4)
+        col = ut.YELLOW if i == len(days) - 1 else ut.WHITE
+        body.append(f'<rect x="{x:.1f}" y="{base - h:.1f}" width="{bw}" height="{h:.1f}" fill="{col}" class="up" '
+                    f'style="animation-delay:{.03 * i:.2f}s"/>')
+    body.append(ut.text(days[0][0], 44, 208, 1.8, ut.GREY) + ut.text(days[-1][0], W - 44, 208, 1.8, ut.GREY, "end"))
+    style = (".up { transform-box: fill-box; transform-origin: bottom; animation: up .8s steps(8) backwards; }"
+             "@keyframes up { from { transform: scaleY(0); } }")
+    return ut.svg(W, H, "".join(body), "Contributions in the last 31 days", style)
 
 
-def wrap(s: str, n: int) -> list[str]:
+def wrap(s: str, n: int, lines: int) -> list[str]:
     out, cur = [], ""
-    for word in s.split():
-        if len(cur) + len(word) + 1 > n:
+    for word in ut.clean(s).split():
+        if len(cur) + len(word) + (1 if cur else 0) > n:
             out.append(cur); cur = word
         else:
             cur = f"{cur} {word}".strip()
     out.append(cur)
-    return out[:2] if len(out) <= 2 else [out[0], out[1][: n - 1] + "…"]
+    if len(out) > lines:
+        out = out[:lines]; out[-1] = out[-1][: n - 3].rstrip() + "..."
+    return out
 
 
 def repo_card(r: dict) -> str:
-    desc = wrap(r["description"] or "", 54)
-    lang = r["primaryLanguage"] or {"name": "", "color": MUTED}
-    body = "".join(f'<text x="22" y="{62 + 18 * i}" class="m f" style="animation-delay:{.1 * i:.1f}s">{escape(t)}</text>' for i, t in enumerate(desc))
-    body += (f'<circle cx="28" cy="{110}" r="5.5" fill="{lang["color"] or MUTED}"/><text x="40" y="114" class="m">{escape(lang["name"])}</text>'
-             f'<text x="200" y="114" class="m">★ {r["stargazerCount"]}</text><text x="250" y="114" class="m">⑂ {r["forkCount"]}</text>')
-    return frame(470, 132, r["name"], body)
+    W, H = 470, 186
+    body = [ut.box(0, 0, W, H), ut.text(f"* {r['name']}", 26, 24, 2.3)]
+    for i, line in enumerate(wrap(r["description"] or "", 38, 4)):
+        body.append(ut.text(line, 26, 62 + 22 * i, 1.8))
+    lang = (r["primaryLanguage"] or {}).get("name", "")
+    body.append(ut.text(f"{lang}   STARS {r['stargazerCount']}   FORKS {r['forkCount']}", 26, 158, 1.8, ut.GREY))
+    return ut.svg(W, H, "".join(body), r["name"])
 
 
 def main():
     login = sys.argv[1]
-    u = json.load(open(sys.argv[sys.argv.index("--data") + 1], encoding="utf-8"))["data"]["user"] if "--data" in sys.argv else fetch(login)
+    u = (json.load(open(sys.argv[sys.argv.index("--data") + 1], encoding="utf-8"))["data"]["user"]
+         if "--data" in sys.argv else fetch(login))
     OUT.mkdir(exist_ok=True)
-    cards = {"stats.svg": stats_card(u), "langs.svg": langs_card(u), "streak.svg": streak_card(u), "activity.svg": activity_card(u)}
+    cards = {"stat.svg": stat_card(u), "items.svg": items_card(u), "activity.svg": activity_card(u)}
     byname = {r["name"]: r for r in u["repositories"]["nodes"]}
-    for n in FEATURED:
-        if n in byname:
-            cards[f"repo-{n}.svg"] = repo_card(byname[n])
+    for name in FEATURED:
+        if name in byname:
+            cards[f"repo-{name}.svg"] = repo_card(byname[name])
     for f, s in cards.items():
         (OUT / f).write_text(s, encoding="utf-8")
     print("wrote", ", ".join(cards))

@@ -12,9 +12,11 @@ to write the file if anything would touch the SOUL. Button icons are drawn as pi
 import math
 from pathlib import Path
 
-W, H, DUR, FPS = 900, 350, 8.0, 30
+W, H, FPS = 900, 350, 30
+T0, Y0 = 1.8, 0                                   # attacks start after the dialog; box moved down
+DUR = 8.0 + T0 + 0.8
 FONT = "'Courier New',Courier,monospace"
-AX, AY, AW, AH = 270, 30, 360, 200                    # bullet box (outer)
+AX, AY, AW, AH = 270, 30 + Y0, 360, 200                    # bullet box (outer)
 IX0, IY0, IX1, IY1 = AX + 5, AY + 5, AX + AW - 5, AY + AH - 5
 HEART = "M0,-6 C-3,-12 -14,-10 -14,-1 C-14,6 -5,11 0,16 C5,11 14,6 14,-1 C14,-10 3,-12 0,-6 Z"
 SOUL_BOX = (-13, -11, 13, 15)                          # hitbox around the SOUL's origin (l, t, r, b)
@@ -86,8 +88,8 @@ ICONS = {
 
 # ───────────────────────── phase 1: bone corridor ─────────────────────────
 GAPS = [136, 100, 150, 192, 165, 118]
-GAPS = [g - 6 for g in GAPS]                          # box sits 6 px higher than the original layout
-GAP_HALF, PAIR_DX, SPEED, P1_T, P1_X = 36, 85, 260.0, 0.35, IX0 - 30
+GAPS = [g - 6 + Y0 for g in GAPS]                          # box sits 6 px higher than the original layout
+GAP_HALF, PAIR_DX, SPEED, P1_T, P1_X = 36, 85, 260.0, 0.35 + T0, IX0 - 30
 pass_t = [P1_T + (450 - P1_X + PAIR_DX * k) / SPEED for k in range(len(GAPS))]
 p1_end_x = IX1 + 20 + PAIR_DX * (len(GAPS) - 1)
 p1_end_t = P1_T + (p1_end_x - P1_X) / SPEED
@@ -108,8 +110,8 @@ bones_svg = (f'<g transform="translate({P1_X},0)">{smil_move(bones_keys)}'
              + "".join(bone_v(ox, y0, y1) for ox, y0, y1 in bone_shapes) + "</g>")
 
 # ───────────────────────── phase 2: pellet ring ─────────────────────────
-RC = (450, 130); R0, R1 = 165, 0
-RING_IN, RING_T0, RING_T1 = 3.75, 3.95, 5.05          # fade-in start, collapse start, collapse end
+RC = (450, 130 + Y0); R0, R1 = 165, 0
+RING_IN, RING_T0, RING_T1 = 3.75 + T0, 3.95 + T0, 5.05 + T0          # fade-in start, collapse start, collapse end
 ANGLES = [k * 30 for k in range(1, 12)]               # 11 pellets, opening at angle 0 (to the right)
 
 
@@ -132,9 +134,9 @@ for a in ANGLES:
 
 # ───────────────────────── phase 3: blaster beams ─────────────────────────
 BEAMS = [  # (kind, centre, warn_start, fire_start, fire_end)
-    ("h", 130, 5.30, 5.62, 5.95),
-    ("v", 560, 5.95, 6.27, 6.60),
-    ("h", 194, 6.55, 6.87, 7.20),
+    ("h", 130 + Y0, 5.30 + T0, 5.62 + T0, 5.95 + T0),
+    ("v", 560, 5.95 + T0, 6.27 + T0, 6.60 + T0),
+    ("h", 194 + Y0, 6.55 + T0, 6.87 + T0, 7.20 + T0),
 ]
 BEAM_HALF = 22
 beams_svg = ""
@@ -151,15 +153,15 @@ for kind, c, tw, tf, te in BEAMS:
 
 # ───────────────────────── the SOUL's path ─────────────────────────
 HOLD = 0.09
-way = [(0.0, 450, 130), (pass_t[0] - HOLD - 0.2, 450, 130)]
+way = [(0.0, 450, 130 + Y0), (pass_t[0] - HOLD - 0.2, 450, 130 + Y0)]
 for t, g in zip(pass_t, GAPS):
     way += [(t - HOLD, 450, g), (t + HOLD, 450, g)]
-way += [(pass_t[-1] + 0.45, 450, 130),               # back to the ring centre
-        (4.20, 450, 130), (4.55, 590, 130),           # escape through the ring's opening (to the right)
-        (5.32, 590, 130), (5.55, 570, 194),           # beam 1 on the SOUL's row -> drop
-        (5.97, 570, 194), (6.22, 420, 194),           # beam 2 on the SOUL's column -> slide left
-        (6.57, 420, 194), (6.82, 450, 106),           # beam 3 on the new row -> rise
-        (7.25, 450, 106), (7.65, 450, 130), (DUR, 450, 130)]
+way += [(pass_t[-1] + 0.45, 450, 130 + Y0),          # back to the ring centre
+        (4.20 + T0, 450, 130 + Y0), (4.55 + T0, 590, 130 + Y0),     # escape through the ring's opening
+        (5.32 + T0, 590, 130 + Y0), (5.55 + T0, 570, 194 + Y0),     # beam on the SOUL's row -> drop
+        (5.97 + T0, 570, 194 + Y0), (6.22 + T0, 420, 194 + Y0),     # beam on the SOUL's column -> slide left
+        (6.57 + T0, 420, 194 + Y0), (6.82 + T0, 450, 106 + Y0),     # beam on the new row -> rise
+        (7.25 + T0, 450, 106 + Y0), (7.65 + T0, 450, 130 + Y0), (DUR, 450, 130 + Y0)]
 samples = [path_at(way, i / FPS) for i in range(int(DUR * FPS) + 1)]
 
 
@@ -192,29 +194,46 @@ for i in range(int(DUR * 400)):
             box = (IX0, c - BEAM_HALF, IX1, c + BEAM_HALF) if kind == "h" else (c - BEAM_HALF, IY0, c + BEAM_HALF, IY1)
             if overlap(sr, box):
                 hits.append(("beam", round(t, 3)))
-    if not (IX0 <= sr[0] and sr[2] <= IX1 and IY0 <= sr[1] and sr[3] <= IY1):
+    if T0 <= t <= DUR - 0.8 and not (IX0 <= sr[0] and sr[2] <= IX1 and IY0 <= sr[1] and sr[3] <= IY1):
         hits.append(("wall", round(t, 3)))
 if hits:
     raise SystemExit(f"collision: {hits[:8]}")
 
 
 # ───────────────────────── assemble ─────────────────────────
+SOUL_ON = smil_keys("opacity", [(0, 0), (T0 - 0.12, 0), (T0, 1), (DUR - 0.85, 1), (DUR - 0.75, 0), (DUR, 0)])
+
+
 def soul_copy(begin, opacity, cls):
-    return (f'<g transform="translate({samples[0][0]},{samples[0][1]})" opacity="{opacity}">{smil_translate(samples, begin)}'
-            f'<g class="{cls}"><path d="{HEART}" fill="#ff0000"/></g></g>')
+    return (f'<g opacity="0">{SOUL_ON}<g transform="translate({samples[0][0]},{samples[0][1]})" opacity="{opacity}">'
+            f'{smil_translate(samples, begin)}<g class="{cls}"><path d="{HEART}" fill="#ff0000"/></g></g></g>')
 
 
+import ut
+BUG = ["....#.....#....", ".....#...#.....", "....#######....", "...#########...", "#.##..###..##.#", ".#############.",
+       "..###########..", "#.#####.#####.#", ".#############.", "..###########..", ".#..#######..#.", "#....#...#....#"]
+K = 900 / 640
 btn = []
-for j, (label, x) in enumerate([("FIGHT", 40), ("ACT", 255), ("ITEM", 470), ("MERCY", 685)]):
+for j, (label, x640) in enumerate([("FIGHT", 32), ("ACT", 185), ("ITEM", 345), ("MERCY", 500)]):
+    x, bw, by, bh = x640 * K, 110 * K, 284, 42 * K
     col = YELLOW if j == 0 else ORANGE
-    if j == 0:                                        # selected: the SOUL replaces the icon
-        icon = f'<g transform="translate({x + 31} 314) scale(.82)"><path d="{HEART}" fill="#ff0000"/></g>'
-    else:
-        icon = pixels(ICONS[label], x + 17, 305, 3.0, col)
-    btn.append(f'<rect x="{x + 2}" y="288" width="171" height="50" fill="#000" stroke="{col}" stroke-width="4"/>{icon}'
-               f'<text x="{x + 106}" y="323" text-anchor="middle" class="b" style="fill:{col}">{label}</text>')
+    icon = (f'<g transform="translate({x + 24:.1f} {by + bh / 2:.1f}) scale(.8)"><path d="{HEART}" fill="#ff0000"/></g>' if j == 0
+            else pixels(ICONS[label], x + 11, by + bh / 2 - 12, 2.7, col))
+    btn.append(f'<rect x="{x + 2:.1f}" y="{by + 2}" width="{bw - 4:.1f}" height="{bh - 4:.1f}" fill="#000" stroke="{col}" stroke-width="4"/>'
+               + icon + ut.text(label, x + bw / 2 + 14, by + bh / 2 - 10, 3.0, col, "middle"))
 
-svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Undertale bullet box: the SOUL dodges bones, a pellet ring and blaster beams" shape-rendering="crispEdges">
+
+GRID = ""                                          # most fights are on plain black
+BUG_SVG = ""                                       # no enemy sprite
+WIDE, TALL = (40 + 2.5, AY + 2.5 + 25, 820 - 5, 150 - 5), (AX + 2.5, AY + 2.5, AW - 5, AH - 5)
+_kt = f"0;{(T0 - 0.45) / DUR:.4f};{(T0 - 0.05) / DUR:.4f};{(DUR - 0.75) / DUR:.4f};{(DUR - 0.35) / DUR:.4f};1"
+BOX_ANIM = "".join(f'<animate attributeName="{a}" values="{w};{w};{t};{t};{w};{w}" keyTimes="{_kt}" dur="{DUR}s" repeatCount="indefinite" calcMode="spline" '
+                   f'keySplines=".4 0 .2 1;.4 0 .2 1;.4 0 .2 1;.4 0 .2 1;.4 0 .2 1"/>'
+                   for a, w, t in zip(("x", "y", "width", "height"), WIDE, TALL))
+DIALOG = (f'<g>{smil_keys("opacity", [(0, 1), (T0 - 0.5, 1), (T0 - 0.45, 0), (DUR - 0.3, 0), (DUR - 0.25, 1), (DUR, 1)])}'
+          + ut.typewriter("* You're filled with DETERMINATION.", 80, AY + 59, 3.2, 0.15, DUR, 0.04, cid="dlg") + "</g>")
+
+svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Undertale-style battle: the SOUL dodges bones, a pellet ring and blaster beams" shape-rendering="crispEdges">
 <defs>
   <clipPath id="arena"><rect x="{IX0}" y="{IY0}" width="{IX1 - IX0}" height="{IY1 - IY0}"/></clipPath>
   <filter id="beam" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -227,18 +246,17 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
   .soul path, .ghost path {{ shape-rendering: geometricPrecision; }}
   @keyframes beat {{ 0%,100% {{ transform: scale(.94); }} 15% {{ transform: scale(1.08); }} 30% {{ transform: scale(.97); }} }}
   .spin {{ animation: spin .6s linear infinite; }}
+  .bob {{ animation: bob 1.6s ease-in-out infinite; }}
+  @keyframes bob {{ 0%,100% {{ transform: translateY(0); }} 50% {{ transform: translateY(5px); }} }}
   @keyframes spin {{ to {{ transform: rotate(90deg); }} }}
 </style>
 <rect width="{W}" height="{H}" fill="#000"/>
-<rect x="{AX + 2.5}" y="{AY + 2.5}" width="{AW - 5}" height="{AH - 5}" fill="#000" stroke="#fff" stroke-width="5"/>
+{GRID}{BUG_SVG}<rect x="{AX + 2.5}" y="{AY + 2.5}" width="{AW - 5}" height="{AH - 5}" fill="#000" stroke="#fff" stroke-width="5">{BOX_ANIM}</rect>{DIALOG}
 <g clip-path="url(#arena)">{bones_svg}{pellets_svg}{beams_svg}</g>
 {soul_copy(0.10, 0.18, "ghost")}
 {soul_copy(0.05, 0.38, "ghost")}
 {soul_copy(0.0, 1, "soul")}
-<text x="44" y="268" class="s">CHARA</text><text x="170" y="268" class="s">LV 20</text>
-<text x="300" y="266" class="s" style="font-size:13px">HP</text>
-<rect x="330" y="250" width="66" height="21" fill="#ff0000"/><rect x="330" y="250" width="66" height="21" fill="{YELLOW}"/>
-<text x="412" y="268" class="s">99 / 99</text>
+{ut.text("WAEL", 44, 248, 2.6)}{ut.text("LV 20", 190, 248, 2.6)}{ut.text("HP", 330, 251, 1.6)}<rect x="356" y="246" width="119" height="22" fill="#ff0000"/><rect x="356" y="246" width="119" height="22" fill="{YELLOW}"/>{ut.text("99 / 99", 490, 248, 2.6)}
 {''.join(btn)}
 </svg>"""
 OUT.parent.mkdir(exist_ok=True)

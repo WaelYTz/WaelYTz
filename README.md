@@ -1,21 +1,18 @@
 <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+<p align="center"><img src="assets/ut-header.svg" width="100%" alt="WAEL - LV 20 - save file"/></p>
+
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,45:5b21b6,100:c026d3&height=230&section=header&text=Wael&fontSize=86&fontColor=ffffff&fontAlignY=36&animation=fadeIn&desc=models%20that%20survive%20the%20private%20leaderboard%20%C2%B7%20agents%20that%20ship&descSize=17&descAlignY=60" width="100%" alt="Wael"/>
+  <img src="https://readme-typing-svg.demolab.com?font=VT323&size=30&duration=2600&pause=900&color=FFFFFF&center=true&vCenter=true&width=760&lines=*+You+encounter+WAEL.;*+WAEL+trains+ML+models+and+builds+AI+agents.;*+WAEL+competes+on+Kaggle+and+Zindi.;*+Technoblade+never+dies.;*+You're+filled+with+DETERMINATION." alt="typing"/>
 </p>
 
 <p align="center">
-  <a href="https://github.com/WaelYTz">
-    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=21&duration=2600&pause=800&color=C4B5FD&center=true&vCenter=true&width=760&lines=%3E+machine+learning+engineer;%3E+AI-agent+builder+(multi-agent+%C2%B7+LLM+tooling);%3E+leaderboard+hunter+on+Kaggle+%26+Zindi;%3E+reconstructing+traffic+from+masked+sensors;%3E+finding+the+bias+hiding+in+the+map;%3E+technoblade+never+dies+%F0%9F%91%91;%3E+all+warfare+is+based+on+deception;%3E+*+you're+filled+with+DETERMINATION+%E2%9D%A4" alt="typing"/>
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://www.kaggle.com/waelyt"><img src="https://img.shields.io/badge/Kaggle-WaelYT-20BEFF?style=for-the-badge&logo=kaggle&logoColor=white" alt="Kaggle"/></a>
-  <img src="https://komarev.com/ghpvc/?username=WaelYTz&style=for-the-badge&color=7c3aed&label=PROFILE+VIEWS" alt="views"/>
-  <img src="https://img.shields.io/github/followers/WaelYTz?style=for-the-badge&logo=github&color=c026d3&label=followers" alt="followers"/>
+  <a href="https://www.kaggle.com/waelyt"><img src="https://img.shields.io/badge/KAGGLE-WaelYT-ff8c1a?style=for-the-badge&logo=kaggle&logoColor=white&labelColor=000000" alt="Kaggle"/></a>
+  <img src="https://komarev.com/ghpvc/?username=WaelYTz&style=for-the-badge&color=ff0000&label=VISITORS" alt="views"/>
+  <img src="https://img.shields.io/github/followers/WaelYTz?style=for-the-badge&logo=github&color=ffff00&labelColor=000000&label=FOLLOWERS" alt="followers"/>
 </p>
 
 <!-- ═══════════════════════════════ WHOAMI ═══════════════════════════════ -->
+<p align="center"><img src="assets/ut-h-whoami.svg" width="100%" alt="Who am I"/></p>
 
 ```console
 wael@github:~$ whoami
@@ -34,7 +31,7 @@ wael@github:~$ ./now --status
 
 <!-- ═══════════════════════════════ LEADERBOARD LOG ═══════════════════════════════ -->
 
-## 🏁 Leaderboard log
+<p align="center"><img src="assets/ut-h-leaderboard.svg" width="100%" alt="Leaderboard log"/></p>
 
 <table>
   <tr>
@@ -44,7 +41,7 @@ wael@github:~$ ./now --status
     <td><code>2026</code></td>
     <td>🟦 Kaggle · IEEE Big Data Cup</td>
     <td><b>TrafficFlowBench</b>: reconstruct, forecast & explain 10 freeway corridors</td>
-    <td>private <b>0.88281</b> · rank <b>51 / 802</b> · strictly causal, post-T verified</td>
+    <td>strictly causal pipeline, post-T verified · full write-up in the repo</td>
     <td><a href="https://github.com/WaelYTz/trafficflowbench-2026">trafficflowbench-2026</a></td>
   </tr>
   <tr>
@@ -65,7 +62,7 @@ wael@github:~$ ./now --status
 
 <!-- ═══════════════════════════════ ART OF WAR ═══════════════════════════════ -->
 
-## 📜 孫子兵法 · The Art of War, leaderboard edition
+<p align="center"><img src="assets/ut-h-artofwar.svg" width="100%" alt="The Art of War"/></p>
 
 <table>
   <tr><th align="left">Sun Tzu <sub>(tr. Lionel Giles, 1910)</sub></th><th align="left">on the leaderboard</th></tr>
@@ -75,11 +72,11 @@ wael@github:~$ ./now --status
   </tr>
   <tr>
     <td><i>"All warfare is based on deception."</i></td>
-    <td>The public leaderboard is a feint. It rewarded the pick that lost on private.</td>
+    <td>A leaderboard can lie. Trust the validation set you built honestly.</td>
   </tr>
   <tr>
     <td><i>"Let your plans be dark and impenetrable as night, and when you move, fall like a thunderbolt."</i></td>
-    <td>Keep the second pick dark. It struck on reveal day: +0.0066 on private.</td>
+    <td>Ship quietly, strike once. Let the work speak on release day.</td>
   </tr>
   <tr>
     <td><i>"The victorious strategist only seeks battle after the victory has been won."</i></td>
@@ -93,12 +90,10 @@ wael@github:~$ ./now --status
 
 <!-- ═══════════════════════════════ TECHNOBLADE ═══════════════════════════════ -->
 
-<p align="center">
-  <img src="assets/technoblade-crown.svg" width="100%" alt="Technoblade never dies"/>
-</p>
+<p align="center"><img src="assets/ut-h-technoblade.svg" width="100%" alt="Technoblade never dies"/></p>
+<p align="center"><img src="assets/ut-technoblade.svg" width="100%" alt="Technoblade: If you wish to defeat me, train for another 100 years. Technoblade never dies."/></p>
 
 <p align="center">
-  <i>"If you wish to defeat me, train for another 100 years."</i><br/>
   <i>"Blood for the Blood God."</i><br/>
   <i>"Not even close, baby. Technoblade never dies!"</i>
 </p>
@@ -110,11 +105,9 @@ wael@github:~$ ./grind --mode technoblade
   [give up]        command not found
 ```
 
-<p align="center"><sub>In memory of Technoblade · 1999 – 2022 · <i>so long, nerds</i> 👑</sub></p>
-
 <!-- ═══════════════════════════════ UNDERTALE ═══════════════════════════════ -->
 
-## ❤️ * You're filled with DETERMINATION.
+<p align="center"><img src="assets/ut-h-determination.svg" width="100%" alt="Determination"/></p>
 
 <p align="center">
   <img src="assets/undertale-fight.svg" width="100%" alt="Undertale bullet box: the SOUL dodges bones, a pellet ring and blaster beams"/>
@@ -129,13 +122,14 @@ wael@github:~$ save --slot 0
 
 <!-- ═══════════════════════════════ PROJECTS ═══════════════════════════════ -->
 
-## 🛠️ Things I've built
+<p align="center"><img src="assets/ut-h-projects.svg" width="100%" alt="Projects"/></p>
 
 <p align="center">
   <a href="https://github.com/WaelYTz/trafficflowbench-2026"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-trafficflowbench-2026.svg" width="49%" alt="trafficflowbench-2026"/></a>
-  <a href="https://github.com/WaelYTz/Refactoring-Swarm-El-equipe"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-Refactoring-Swarm-El-equipe.svg" width="49%" alt="Refactoring Swarm"/></a>
+  <a href="https://github.com/WaelYTz/Refactoring-Swarm-El-equipe"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-Refactoring-Swarm-El-equipe.svg" width="49%" alt="Refactoring-Swarm-El-equipe"/></a>
   <a href="https://github.com/WaelYTz/resist-one-road-out"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-resist-one-road-out.svg" width="49%" alt="resist-one-road-out"/></a>
   <a href="https://github.com/WaelYTz/vec-leaderboard-insights"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-vec-leaderboard-insights.svg" width="49%" alt="vec-leaderboard-insights"/></a>
+  <a href="https://github.com/WaelYTz/ML_AlgorithmsFromScratch"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-ML_AlgorithmsFromScratch.svg" width="49%" alt="ML_AlgorithmsFromScratch"/></a>
 </p>
 
 | | project | what it does |
@@ -148,46 +142,39 @@ wael@github:~$ save --slot 0
 
 <!-- ═══════════════════════════════ STACK ═══════════════════════════════ -->
 
-## ⚡ Stack
+<p align="center"><img src="assets/ut-h-stack.svg" width="100%" alt="Stack"/></p>
 
 <p align="center">
   <img src="https://skillicons.dev/icons?i=python,pytorch,sklearn,ts,git,github,vscode&theme=dark" alt="stack"/>
 </p>
 <p align="center">
-  <img src="https://img.shields.io/badge/XGBoost-1f2937?style=flat-square&logo=xgboost&logoColor=white"/>
-  <img src="https://img.shields.io/badge/LightGBM-1f2937?style=flat-square&logo=microsoft&logoColor=white"/>
-  <img src="https://img.shields.io/badge/CatBoost-1f2937?style=flat-square&logo=yandex&logoColor=white"/>
-  <img src="https://img.shields.io/badge/LangGraph-1f2937?style=flat-square&logo=langchain&logoColor=white"/>
-  <img src="https://img.shields.io/badge/LangChain-1f2937?style=flat-square&logo=langchain&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Gemini-1f2937?style=flat-square&logo=googlegemini&logoColor=white"/>
-  <img src="https://img.shields.io/badge/pandas-1f2937?style=flat-square&logo=pandas&logoColor=white"/>
-  <img src="https://img.shields.io/badge/NumPy-1f2937?style=flat-square&logo=numpy&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Jupyter-1f2937?style=flat-square&logo=jupyter&logoColor=white"/>
+  <img src="https://img.shields.io/badge/XGBoost-000000?style=flat-square&logo=xgboost&logoColor=white"/>
+  <img src="https://img.shields.io/badge/LightGBM-000000?style=flat-square&logo=microsoft&logoColor=white"/>
+  <img src="https://img.shields.io/badge/CatBoost-000000?style=flat-square&logo=yandex&logoColor=white"/>
+  <img src="https://img.shields.io/badge/LangGraph-000000?style=flat-square&logo=langchain&logoColor=white"/>
+  <img src="https://img.shields.io/badge/LangChain-000000?style=flat-square&logo=langchain&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Gemini-000000?style=flat-square&logo=googlegemini&logoColor=white"/>
+  <img src="https://img.shields.io/badge/pandas-000000?style=flat-square&logo=pandas&logoColor=white"/>
+  <img src="https://img.shields.io/badge/NumPy-000000?style=flat-square&logo=numpy&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Jupyter-000000?style=flat-square&logo=jupyter&logoColor=white"/>
 </p>
 
 <!-- ═══════════════════════════════ STATS ═══════════════════════════════ -->
 
-## 📊 Telemetry
+<p align="center"><img src="assets/ut-h-stat.svg" width="100%" alt="Stat"/></p>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/stats.svg" width="49%" alt="stats"/>
-  <img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/langs.svg" width="49%" alt="languages"/>
-</p>
-<p align="center">
-  <img width="100%" src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/activity.svg" alt="activity"/>
-</p>
+<p align="center"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/stat.svg" width="100%" alt="Undertale STAT menu with GitHub stats"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/items.svg" width="100%" alt="Undertale ITEM menu with languages"/></p>
+
+<p align="center"><img src="assets/ut-h-activity.svg" width="100%" alt="Last 31 days"/></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/activity.svg" width="100%" alt="contributions in the last 31 days"/></p>
 
 <!-- ═══════════════════════════════ SNAKE ═══════════════════════════════ -->
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/github-snake-dark.svg"/>
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/github-snake.svg"/>
-    <img alt="snake eating my contributions" src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/github-snake-dark.svg"/>
-  </picture>
+  <img alt="the SOUL eating my contributions" src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/github-snake-dark.svg"/>
 </p>
 
 <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:c026d3,55:5b21b6,100:0f0c29&height=120&section=footer" width="100%" alt=""/>
-</p>
+<p align="center"><img src="assets/ut-footer.svg" width="100%" alt="Stay determined."/></p>
