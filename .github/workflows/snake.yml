@@ -17,6 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Generate stats, language, activity and project cards
+        run: python3 scripts/cards.py ${{ github.repository_owner }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Generate snake SVGs
         uses: Platane/snk@v3
         with:
@@ -24,11 +29,6 @@ jobs:
           outputs: |
             dist/github-snake.svg?color_snake=#7c3aed&color_dots=#ebedf0,#ddd6fe,#a78bfa,#7c3aed,#4c1d95
             dist/github-snake-dark.svg?palette=github-dark&color_snake=#c4b5fd&color_dots=#161b22,#2e1065,#5b21b6,#7c3aed,#a78bfa
-
-      - name: Generate stats, language, activity and project cards
-        run: python3 scripts/cards.py ${{ github.repository_owner }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push SVGs to the output branch
         uses: crazy-max/ghaction-github-pages@v4
