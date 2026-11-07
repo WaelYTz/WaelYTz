@@ -63,8 +63,6 @@ wael@github:~$ ./now --status
   </tr>
 </table>
 
-> 💡 **Field note from TrafficFlowBench:** my public-best submission (0.88653 public) dropped to 0.87625 on private. The *decorrelated* second pick I made as a hedge scored **+0.0066 higher on private** and became the final one. The public board never saw the regime shift; the hedge did.
-
 <!-- ═══════════════════════════════ ART OF WAR ═══════════════════════════════ -->
 
 ## 📜 孫子兵法 · The Art of War, leaderboard edition
@@ -96,10 +94,8 @@ wael@github:~$ ./now --status
 <!-- ═══════════════════════════════ TECHNOBLADE ═══════════════════════════════ -->
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:ff4fa3,100:ffd166&height=90&section=header&text=TECHNOBLADE%20NEVER%20DIES&fontSize=34&fontColor=0d1117&animation=twinkling" width="100%" alt="Technoblade never dies"/>
+  <img src="assets/technoblade-crown.svg" width="100%" alt="Technoblade never dies"/>
 </p>
-
-<p align="center">🐷👑 ⚔️ 🥔</p>
 
 <p align="center">
   <i>"If you wish to defeat me, train for another 100 years."</i><br/>
@@ -121,7 +117,7 @@ wael@github:~$ ./grind --mode technoblade
 ## ❤️ * You're filled with DETERMINATION.
 
 <p align="center">
-  <img src="assets/undertale-battle.svg" width="100%" alt="* Greetings. I am Chara."/>
+  <img src="assets/undertale-fight.svg" width="100%" alt="Undertale bullet box: the SOUL dodges bones, a pellet ring and blaster beams"/>
 </p>
 
 ```console
@@ -130,10 +126,6 @@ wael@github:~$ save --slot 0
   * The progress of 3 competitions has been saved.
   * HP fully restored.
 ```
-
-<p align="center">
-  <b>favourite character:</b> Chara 🔪&nbsp;&nbsp;·&nbsp;&nbsp;<b>favourite things:</b> 🍫 chocolate · 🌼 golden flowers · 🔪 the Real Knife
-</p>
 
 <!-- ═══════════════════════════════ PROJECTS ═══════════════════════════════ -->
 
