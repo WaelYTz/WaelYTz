@@ -1,4 +1,4 @@
-"""assets/undertale.svg: an animated Undertale-style battle (pure SVG + SMIL, loops every DUR seconds).
+"""assets/undertale-battle.svg: an animated Undertale-style battle (pure SVG + SMIL, loops every DUR seconds).
 
 Timeline: Chara's line types out; bones sweep the bullet box along the floor, then the ceiling, while the red SOUL
 slips through the gap; friendliness pellets rain down and the SOUL zig-zags between them; a knife slash crosses the
@@ -109,5 +109,5 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 {''.join(btn)}
 </svg>"""
 Path("assets").mkdir(exist_ok=True)
-Path("assets/undertale.svg").write_text(svg, encoding="utf-8")
-print("wrote assets/undertale.svg", len(svg), "bytes")
+Path("assets/undertale-battle.svg").write_text(svg, encoding="utf-8")
+print("wrote assets/undertale-battle.svg", len(svg), "bytes")

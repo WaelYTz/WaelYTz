@@ -121,7 +121,7 @@ wael@github:~$ ./grind --mode technoblade
 ## ❤️ * You're filled with DETERMINATION.
 
 <p align="center">
-  <img src="assets/undertale.svg" width="100%" alt="* Greetings. I am Chara."/>
+  <img src="assets/undertale-battle.svg" width="100%" alt="* Greetings. I am Chara."/>
 </p>
 
 ```console
