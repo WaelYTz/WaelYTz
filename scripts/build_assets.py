@@ -20,13 +20,13 @@ def header() -> str:
     tag = ut.text("ML engineer - AI agent builder - competition data scientist", 450, 156, 2.2, ut.GREY, "middle")
     # save menu (white rows, then the yellow "file saved" state, like the game)
     bx, by, bw, bh = 140, 196, 620, 148
-    rows_white = (ut.text("Wael", bx + 34, by + 26, 3.2) + ut.text("LV 20", bx + bw / 2, by + 26, 3.2, anchor="middle")
-                  + ut.text("2026", bx + bw - 34, by + 26, 3.2, anchor="end")
+    rows_white = (ut.text("WAEL", bx + 34, by + 26, 3.2) + ut.text("LV 20", bx + bw / 2, by + 26, 3.2, anchor="middle")
+                  + ut.text("20:26", bx + bw - 34, by + 26, 3.2, anchor="end")
                   + ut.text("Kaggle - Zindi - GitHub", bx + 34, by + 66, 3.2)
                   + ut.soul(bx + 40, by + 108, 3.2, 'class="beat"')
                   + ut.text("Save", bx + 80, by + 106, 3.2) + ut.text("Return", bx + 330, by + 106, 3.2))
-    rows_yellow = (ut.text("Wael", bx + 34, by + 26, 3.2, ut.YELLOW) + ut.text("LV 20", bx + bw / 2, by + 26, 3.2, ut.YELLOW, "middle")
-                   + ut.text("2026", bx + bw - 34, by + 26, 3.2, ut.YELLOW, "end")
+    rows_yellow = (ut.text("WAEL", bx + 34, by + 26, 3.2, ut.YELLOW) + ut.text("LV 20", bx + bw / 2, by + 26, 3.2, ut.YELLOW, "middle")
+                   + ut.text("20:26", bx + bw - 34, by + 26, 3.2, ut.YELLOW, "end")
                    + ut.text("Kaggle - Zindi - GitHub", bx + 34, by + 66, 3.2, ut.YELLOW)
                    + ut.text("File saved.", bx + 80, by + 106, 3.2, ut.YELLOW))
     vis_w = f'<animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;.62;.63;.99;1" dur="{D}s" repeatCount="indefinite"/>'
@@ -73,6 +73,6 @@ if __name__ == "__main__":
         (OUT / name).parent.mkdir(exist_ok=True)
         (OUT / name).write_text(heading(label), encoding="utf-8")
     OUT.mkdir(exist_ok=True)
-    for name, fn in (("ut-header.svg", header), ("ut-technoblade.svg", technoblade), ("ut-footer.svg", footer)):
+    for name, fn in (("ut-save.svg", header), ("ut-technoblade.svg", technoblade), ("ut-footer.svg", footer)):
         (OUT / name).write_text(fn(), encoding="utf-8")
         print("wrote", OUT / name)
