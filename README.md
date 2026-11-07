@@ -170,10 +170,10 @@ wael@github:~$ save --slot 0
 
 <p align="center"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/activity.svg" width="100%" alt="contributions in the last 31 days"/></p>
 
-<!-- ═══════════════════════════════ SNAKE ═══════════════════════════════ -->
+<!-- ═══════════════════════════════ JOURNEY ═══════════════════════════════ -->
 
 <p align="center">
-  <img alt="the SOUL eating my contributions" src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/github-snake-dark.svg"/>
+  <img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/journey.svg" width="100%" alt="contributions this year, with the SOUL travelling across the weeks"/>
 </p>
 
 <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->

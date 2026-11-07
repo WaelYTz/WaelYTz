@@ -143,6 +143,36 @@ def activity_card(u: dict) -> str:
     return ut.svg(W, H, "".join(body), "Contributions in the last 31 days", style)
 
 
+def journey_card(u: dict) -> str:
+    """The year's contribution grid as pixel cells in an Undertale box, with the SOUL travelling across the weeks."""
+    weeks = u["contributionsCollection"]["contributionCalendar"]["weeks"]
+    total = u["contributionsCollection"]["contributionCalendar"]["totalContributions"]
+    W, H, cell, gap = 940, 236, 12, 3
+    step = cell + gap
+    x0 = (W - len(weeks) * step + gap) / 2
+    y0 = 92
+    shade = lambda c: "#1c1c1c" if c == 0 else "#5a5a5a" if c <= 2 else "#b4b4b4" if c <= 5 else "#ffffff" if c <= 9 else ut.YELLOW
+    cells = []
+    for wi, w in enumerate(weeks):
+        for d in w["contributionDays"]:
+            wd = dt.date.fromisoformat(d["date"]).isoweekday() % 7          # Sunday = 0, like GitHub
+            cells.append(f'<rect x="{x0 + wi * step:.1f}" y="{y0 + wd * step}" width="{cell}" height="{cell}" fill="{shade(d["contributionCount"])}"/>')
+    n, per, hold = len(weeks), 0.11, 1.4
+    dur = n * per + hold
+    xs = [x0 + i * step for i in range(n)] + [x0 + (n - 1) * step]
+    kt = [i * per / dur for i in range(n)] + [1.0]
+    move = (f'<animateTransform attributeName="transform" type="translate" calcMode="discrete" dur="{dur:.2f}s" repeatCount="indefinite" '
+            f'values="{";".join(f"{x:.1f},0" for x in xs)}" keyTimes="{";".join(f"{k:.4f}" for k in kt)}"/>')
+    scan = f'<g>{move}<rect x="-2" y="{y0 - 3}" width="{cell + 4}" height="{7 * step + 3}" fill="#ffffff" opacity=".16"/></g>'
+    soul = f'<g>{move}{ut.soul(-1, y0 - 22, 2)}</g>'
+    body = (ut.box(0, 0, W, H) + ut.text(f"* {total} contributions this year.", 30, 26, 2.6)
+            + ut.text("less", W - 250, 56, 1.6, ut.GREY)
+            + "".join(f'<rect x="{W - 206 + i * 16}" y="54" width="12" height="12" fill="{c}"/>'
+                      for i, c in enumerate(["#1c1c1c", "#5a5a5a", "#b4b4b4", "#ffffff", ut.YELLOW]))
+            + ut.text("more", W - 120, 56, 1.6, ut.GREY) + "".join(cells) + scan + soul)
+    return ut.svg(W, H, body, f"{total} contributions this year, with the SOUL travelling across the weeks")
+
+
 def wrap(s: str, n: int, lines: int) -> list[str]:
     out, cur = [], ""
     for word in ut.clean(s).split():
@@ -171,7 +201,7 @@ def main():
     u = (json.load(open(sys.argv[sys.argv.index("--data") + 1], encoding="utf-8"))["data"]["user"]
          if "--data" in sys.argv else fetch(login))
     OUT.mkdir(exist_ok=True)
-    cards = {"stat.svg": stat_card(u), "items.svg": items_card(u), "activity.svg": activity_card(u)}
+    cards = {"stat.svg": stat_card(u), "items.svg": items_card(u), "activity.svg": activity_card(u), "journey.svg": journey_card(u)}
     byname = {r["name"]: r for r in u["repositories"]["nodes"]}
     for name in FEATURED:
         if name in byname:

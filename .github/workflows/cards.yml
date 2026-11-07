@@ -1,4 +1,4 @@
-name: Build profile assets (snake + cards)
+name: Build profile cards
 
 on:
   schedule:
@@ -21,14 +21,6 @@ jobs:
         run: python3 scripts/cards.py ${{ github.repository_owner }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate snake SVGs
-        uses: Platane/snk@v3
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/github-snake.svg?color_snake=#ff0000&color_dots=#eeeeee,#bbbbbb,#888888,#555555,#222222
-            dist/github-snake-dark.svg?palette=github-dark&color_snake=#ff0000&color_dots=#111111,#3a3a3a,#6b6b6b,#a8a8a8,#ffffff&color_background=#000000
 
       - name: Push SVGs to the output branch
         uses: crazy-max/ghaction-github-pages@v4
