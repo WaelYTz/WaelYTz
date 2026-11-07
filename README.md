@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://github.com/WaelYTz">
-    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=21&duration=2600&pause=800&color=C4B5FD&center=true&vCenter=true&width=760&lines=%3E+machine+learning+engineer;%3E+AI-agent+builder+(multi-agent+%C2%B7+LLM+tooling);%3E+leaderboard+hunter+on+Kaggle+%26+Zindi;%3E+reconstructing+traffic+from+masked+sensors;%3E+finding+the+bias+hiding+in+the+map;%3E+technoblade+never+dies+%F0%9F%91%91;%3E+all+warfare+is+based+on+deception" alt="typing"/>
+    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=21&duration=2600&pause=800&color=C4B5FD&center=true&vCenter=true&width=760&lines=%3E+machine+learning+engineer;%3E+AI-agent+builder+(multi-agent+%C2%B7+LLM+tooling);%3E+leaderboard+hunter+on+Kaggle+%26+Zindi;%3E+reconstructing+traffic+from+masked+sensors;%3E+finding+the+bias+hiding+in+the+map;%3E+technoblade+never+dies+%F0%9F%91%91;%3E+all+warfare+is+based+on+deception;%3E+*+you're+filled+with+DETERMINATION+%E2%9D%A4" alt="typing"/>
   </a>
 </p>
 
@@ -115,6 +115,25 @@ wael@github:~$ ./grind --mode technoblade
 ```
 
 <p align="center"><sub>In memory of Technoblade · 1999 – 2022 · <i>so long, nerds</i> 👑</sub></p>
+
+<!-- ═══════════════════════════════ UNDERTALE ═══════════════════════════════ -->
+
+## ❤️ * You're filled with DETERMINATION.
+
+<p align="center">
+  <img src="assets/undertale.svg" width="100%" alt="* Greetings. I am Chara."/>
+</p>
+
+```console
+wael@github:~$ save --slot 0
+  * Despite everything, it's still you.
+  * The progress of 3 competitions has been saved.
+  * HP fully restored.
+```
+
+<p align="center">
+  <b>favourite character:</b> Chara 🔪&nbsp;&nbsp;·&nbsp;&nbsp;<b>favourite things:</b> 🍫 chocolate · 🌼 golden flowers · 🔪 the Real Knife
+</p>
 
 <!-- ═══════════════════════════════ PROJECTS ═══════════════════════════════ -->
 
