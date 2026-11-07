@@ -71,10 +71,10 @@ wael@github:~$ ./now --status
 ## 🛠️ Things I've built
 
 <p align="center">
-  <a href="https://github.com/WaelYTz/trafficflowbench-2026"><img src="https://github-readme-stats.vercel.app/api/pin/?username=WaelYTz&repo=trafficflowbench-2026&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=c4b5fd&icon_color=c026d3" alt="trafficflowbench-2026"/></a>
-  <a href="https://github.com/WaelYTz/Refactoring-Swarm-El-equipe"><img src="https://github-readme-stats.vercel.app/api/pin/?username=WaelYTz&repo=Refactoring-Swarm-El-equipe&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=c4b5fd&icon_color=c026d3" alt="Refactoring Swarm"/></a>
-  <a href="https://github.com/WaelYTz/resist-one-road-out"><img src="https://github-readme-stats.vercel.app/api/pin/?username=WaelYTz&repo=resist-one-road-out&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=c4b5fd&icon_color=c026d3" alt="resist-one-road-out"/></a>
-  <a href="https://github.com/WaelYTz/vec-leaderboard-insights"><img src="https://github-readme-stats.vercel.app/api/pin/?username=WaelYTz&repo=vec-leaderboard-insights&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=c4b5fd&icon_color=c026d3" alt="vec-leaderboard-insights"/></a>
+  <a href="https://github.com/WaelYTz/trafficflowbench-2026"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-trafficflowbench-2026.svg" width="49%" alt="trafficflowbench-2026"/></a>
+  <a href="https://github.com/WaelYTz/Refactoring-Swarm-El-equipe"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-Refactoring-Swarm-El-equipe.svg" width="49%" alt="Refactoring Swarm"/></a>
+  <a href="https://github.com/WaelYTz/resist-one-road-out"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-resist-one-road-out.svg" width="49%" alt="resist-one-road-out"/></a>
+  <a href="https://github.com/WaelYTz/vec-leaderboard-insights"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-vec-leaderboard-insights.svg" width="49%" alt="vec-leaderboard-insights"/></a>
 </p>
 
 | | project | what it does |
@@ -109,14 +109,11 @@ wael@github:~$ ./now --status
 ## 📊 Telemetry
 
 <p align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=WaelYTz&show_icons=true&count_private=true&include_all_commits=true&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=c4b5fd&icon_color=c026d3&rank_icon=github" alt="stats"/>
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=WaelYTz&layout=compact&langs_count=6&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=c4b5fd" alt="languages"/>
+  <img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/stats.svg" width="49%" alt="stats"/>
+  <img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/langs.svg" width="49%" alt="languages"/>
 </p>
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=WaelYTz&theme=tokyonight&hide_border=true&background=0d1117&ring=c026d3&fire=c026d3&currStreakLabel=c4b5fd" alt="streak"/>
-</p>
-<p align="center">
-  <img width="100%" src="https://github-readme-activity-graph.vercel.app/graph?username=WaelYTz&bg_color=0d1117&color=c4b5fd&line=c026d3&point=ffffff&area=true&area_color=5b21b6&hide_border=true&custom_title=commits%20over%20time" alt="activity"/>
+  <img width="100%" src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/activity.svg" alt="activity"/>
 </p>
 
 <!-- ═══════════════════════════════ SNAKE ═══════════════════════════════ -->
