@@ -144,34 +144,69 @@ def activity_card(u: dict) -> str:
 
 
 def journey_card(u: dict) -> str:
-    """The year's contribution grid as pixel cells in an Undertale box, with the SOUL travelling across the weeks."""
+    """The year's contribution grid as pixel cells; the SOUL slithers through it like the contribution snake, eating
+    every lit day (flash, then dark), then the grid refills and the hunt loops."""
     weeks = u["contributionsCollection"]["contributionCalendar"]["weeks"]
     total = u["contributionsCollection"]["contributionCalendar"]["totalContributions"]
     W, H, cell, gap = 940, 236, 12, 3
     step = cell + gap
-    x0 = (W - len(weeks) * step + gap) / 2
+    n = len(weeks)
+    x0 = (W - n * step + gap) / 2
     y0 = 92
-    shade = lambda c: "#1c1c1c" if c == 0 else "#5a5a5a" if c <= 2 else "#b4b4b4" if c <= 5 else "#ffffff" if c <= 9 else ut.YELLOW
-    cells = []
+    EMPTY = "#1c1c1c"
+    shade = lambda c: EMPTY if c == 0 else "#5a5a5a" if c <= 2 else "#b4b4b4" if c <= 5 else "#ffffff" if c <= 9 else ut.YELLOW
+    grid = {}
     for wi, w in enumerate(weeks):
         for d in w["contributionDays"]:
-            wd = dt.date.fromisoformat(d["date"]).isoweekday() % 7          # Sunday = 0, like GitHub
-            cells.append(f'<rect x="{x0 + wi * step:.1f}" y="{y0 + wd * step}" width="{cell}" height="{cell}" fill="{shade(d["contributionCount"])}"/>')
-    n, per, hold = len(weeks), 0.11, 1.4
-    dur = n * per + hold
-    xs = [x0 + i * step for i in range(n)] + [x0 + (n - 1) * step]
-    kt = [i * per / dur for i in range(n)] + [1.0]
-    move = (f'<animateTransform attributeName="transform" type="translate" calcMode="discrete" dur="{dur:.2f}s" repeatCount="indefinite" '
-            f'values="{";".join(f"{x:.1f},0" for x in xs)}" keyTimes="{";".join(f"{k:.4f}" for k in kt)}"/>')
-    scan = f'<g>{move}<rect x="-2" y="{y0 - 3}" width="{cell + 4}" height="{7 * step + 3}" fill="#ffffff" opacity=".16"/></g>'
-    soul = f'<g>{move}{ut.soul(-1, y0 - 22, 2)}</g>'
+            grid[(wi, dt.date.fromisoformat(d["date"]).isoweekday() % 7)] = d["contributionCount"]   # Sunday = 0
+
+    # greedy hunt: always head for the nearest lit cell, one grid step at a time (horizontal, then vertical)
+    targets = {k for k, c in grid.items() if c > 0}
+    pos, path, eaten_at = (-1, 0), [(-1, 0)], {}
+    while targets:
+        tgt = min(targets, key=lambda k: (abs(k[0] - pos[0]) + abs(k[1] - pos[1]), k[0], k[1]))
+        while pos != tgt:
+            if pos[0] != tgt[0]:
+                pos = (pos[0] + (1 if tgt[0] > pos[0] else -1), pos[1])
+            else:
+                pos = (pos[0], pos[1] + (1 if tgt[1] > pos[1] else -1))
+            path.append(pos)
+            if pos in targets:
+                eaten_at[pos] = len(path) - 1
+                targets.discard(pos)
+    while pos[0] < n:                                                     # leave the board to the right
+        pos = (pos[0] + 1, pos[1]); path.append(pos)
+    per = 0.075
+    hold = 1.6
+    dur = (len(path) - 1) * per + hold
+    t_of = lambda i: i * per / dur
+
+    xy = [(x0 + c * step, y0 + r * step) for c, r in path]
+    vals = ";".join(f"{x:.1f},{y:.1f}" for x, y in xy) + f";{xy[-1][0]:.1f},{xy[-1][1]:.1f}"
+    kts = ";".join(f"{t_of(i):.5f}" for i in range(len(path))) + ";1"
+
+    def mover(begin: float, inner: str) -> str:
+        return (f'<g transform="translate({xy[0][0]:.1f},{xy[0][1]:.1f})"><animateTransform attributeName="transform" type="translate" '
+                f'calcMode="linear" dur="{dur:.2f}s" begin="{begin:.3f}s" repeatCount="indefinite" values="{vals}" keyTimes="{kts}"/>{inner}</g>')
+
+    cells = []
+    for (wi, wd), c in grid.items():
+        x, y = x0 + wi * step, y0 + wd * step
+        anim = ""
+        if (wi, wd) in eaten_at:
+            te = t_of(eaten_at[(wi, wd)])
+            anim = (f'<animate attributeName="fill" calcMode="discrete" dur="{dur:.2f}s" repeatCount="indefinite" '
+                    f'values="{shade(c)};#ffffff;{EMPTY}" keyTimes="0;{te:.5f};{min(0.9999, te + 0.06 / dur):.5f}"/>')
+        cells.append(f'<rect x="{x:.1f}" y="{y}" width="{cell}" height="{cell}" fill="{shade(c)}">{anim}</rect>')
+
+    tail = ""                                                             # just the SOUL, no tail
+    head = mover(0, ut.soul(-1, 0, 2))
     body = (ut.box(0, 0, W, H) + ut.text(f"* {total} contributions this year.", 30, 26, 2.6)
             + ut.text("less", W - 250, 56, 1.6, ut.GREY)
             + "".join(f'<rect x="{W - 206 + i * 16}" y="54" width="12" height="12" fill="{c}"/>'
-                      for i, c in enumerate(["#1c1c1c", "#5a5a5a", "#b4b4b4", "#ffffff", ut.YELLOW]))
-            + ut.text("more", W - 120, 56, 1.6, ut.GREY) + "".join(cells) + scan + soul)
-    return ut.svg(W, H, body, f"{total} contributions this year, with the SOUL travelling across the weeks")
-
+                      for i, c in enumerate([EMPTY, "#5a5a5a", "#b4b4b4", "#ffffff", ut.YELLOW]))
+            + ut.text("more", W - 120, 56, 1.6, ut.GREY) + "".join(cells) + tail + head)
+    return ut.svg(W, H, body, f"{total} contributions this year; the SOUL hunts them like the contribution snake")
 
 def wrap(s: str, n: int, lines: int) -> list[str]:
     out, cur = [], ""
