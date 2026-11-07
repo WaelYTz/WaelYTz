@@ -236,7 +236,7 @@ def main():
     u = (json.load(open(sys.argv[sys.argv.index("--data") + 1], encoding="utf-8"))["data"]["user"]
          if "--data" in sys.argv else fetch(login))
     OUT.mkdir(exist_ok=True)
-    cards = {"stat.svg": stat_card(u), "items.svg": items_card(u), "activity.svg": activity_card(u), "journey.svg": journey_card(u)}
+    cards = {"stat.svg": stat_card(u), "items.svg": items_card(u), "activity.svg": activity_card(u), "soul-hunt.svg": journey_card(u)}
     byname = {r["name"]: r for r in u["repositories"]["nodes"]}
     for name in FEATURED:
         if name in byname:

@@ -173,7 +173,7 @@ wael@github:~$ save --slot 0
 <!-- ═══════════════════════════════ JOURNEY ═══════════════════════════════ -->
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/journey.svg" width="100%" alt="contributions this year, with the SOUL travelling across the weeks"/>
+  <img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/soul-hunt.svg" width="100%" alt="contributions this year, with the SOUL travelling across the weeks"/>
 </p>
 
 <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
