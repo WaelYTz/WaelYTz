@@ -6,6 +6,7 @@
 </p>
 
 <p align="center">
+  <a href="https://waelytz.github.io"><img src="https://img.shields.io/badge/PLAY-MY%20PORTFOLIO-ff0000?style=for-the-badge&logo=githubpages&logoColor=white&labelColor=000000" alt="Play my portfolio"/></a>
   <a href="https://www.kaggle.com/waelyt"><img src="https://img.shields.io/badge/KAGGLE-WaelYT-ff8c1a?style=for-the-badge&logo=kaggle&logoColor=white&labelColor=000000" alt="Kaggle"/></a>
   <img src="https://komarev.com/ghpvc/?username=WaelYTz&style=for-the-badge&color=ff0000&label=VISITORS" alt="views"/>
   <img src="https://img.shields.io/github/followers/WaelYTz?style=for-the-badge&logo=github&color=ffff00&labelColor=000000&label=FOLLOWERS" alt="followers"/>
@@ -13,7 +14,8 @@
 
 <p align="center">
   <b>Hi, I'm Wael</b>: ML engineer and AI-agent builder. I build forecasting models and multi-agent LLM systems, and compete on Kaggle and Zindi.<br/>
-  Open to collaborations on machine learning, AI agents and data competitions.
+  Open to collaborations on machine learning, AI agents and data competitions.<br/><br/>
+  ♥ <a href="https://waelytz.github.io"><b>Play my portfolio</b></a>: an explorable pixel-art underground where every room is a project. No time? <a href="https://waelytz.github.io/resume/">Read the résumé</a>.
 </p>
 
 <!-- ═══════════════════════════════ ENCOUNTER ═══════════════════════════════ -->
