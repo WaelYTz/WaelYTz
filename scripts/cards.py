@@ -22,7 +22,9 @@ from pathlib import Path
 import ut
 
 FEATURED = ["trafficflowbench-2026", "Refactoring-Swarm-El-equipe", "resist-one-road-out", "vec-leaderboard-insights",
-            "ML_AlgorithmsFromScratch"]
+            "ML_AlgorithmsFromScratch", "ooredoo-training-recommender"]
+# public repos owned by an org I co-maintain; the card title shows owner/name, the file is repo-<name>.svg
+FEATURED_EXTERNAL = ["llm-lab-dz/llm-from-scratch", "llm-lab-dz/LLM-FineTune"]
 OUT = Path("dist")
 NAME = "Wael"
 
@@ -48,16 +50,41 @@ query($login: String!) {
 }"""
 
 
-def fetch(login: str) -> dict:
+REPO_QUERY = """
+query($owner: String!, $name: String!) {
+  repository(owner: $owner, name: $name) {
+    name description stargazerCount forkCount isPrivate
+    primaryLanguage { name color }
+  }
+}"""
+
+
+def graphql(query: str, variables: dict) -> dict:
     req = urllib.request.Request("https://api.github.com/graphql",
-                                 data=json.dumps({"query": QUERY, "variables": {"login": login}}).encode(),
+                                 data=json.dumps({"query": query, "variables": variables}).encode(),
                                  headers={"Authorization": f"bearer {os.environ['GITHUB_TOKEN']}",
                                           "Content-Type": "application/json", "User-Agent": "profile-cards"})
     with urllib.request.urlopen(req, timeout=30) as r:
         d = json.load(r)
     if "errors" in d:
         raise SystemExit(d["errors"])
-    return d["data"]["user"]
+    return d["data"]
+
+
+def fetch(login: str) -> dict:
+    return graphql(QUERY, {"login": login})["user"]
+
+
+def fetch_external(full_name: str) -> dict | None:
+    """One public repo outside my account (e.g. an org repo). None if it is missing, private or the call fails,
+    so a renamed repo never breaks the whole card run."""
+    owner, name = full_name.split("/", 1)
+    try:
+        r = graphql(REPO_QUERY, {"owner": owner, "name": name})["repository"]
+    except (SystemExit, OSError) as e:
+        print(f"skipping {full_name}: {e}")
+        return None
+    return None if not r or r["isPrivate"] else dict(r, name=full_name)
 
 
 def numbers(u: dict) -> dict:
@@ -306,6 +333,10 @@ def main():
     for name in FEATURED:
         if name in byname:
             cards[f"repo-{name}.svg"] = repo_card(byname[name])
+    for full_name in ([] if "--data" in sys.argv else FEATURED_EXTERNAL):   # offline preview: no extra calls
+        r = fetch_external(full_name)
+        if r:
+            cards[f"repo-{full_name.split('/', 1)[1]}.svg"] = repo_card(r)
     for f, s in cards.items():
         (OUT / f).write_text(s, encoding="utf-8")
     print("wrote", ", ".join(cards))

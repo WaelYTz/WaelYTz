@@ -104,6 +104,9 @@ wael@github:~$ save --slot 0
   <a href="https://github.com/WaelYTz/resist-one-road-out"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-resist-one-road-out.svg" width="49%" alt="resist-one-road-out"/></a>
   <a href="https://github.com/WaelYTz/vec-leaderboard-insights"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-vec-leaderboard-insights.svg" width="49%" alt="vec-leaderboard-insights"/></a>
   <a href="https://github.com/WaelYTz/ML_AlgorithmsFromScratch"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-ML_AlgorithmsFromScratch.svg" width="49%" alt="ML_AlgorithmsFromScratch"/></a>
+  <a href="https://github.com/WaelYTz/ooredoo-training-recommender"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-ooredoo-training-recommender.svg" width="49%" alt="ooredoo-training-recommender"/></a>
+  <a href="https://github.com/llm-lab-dz/llm-from-scratch"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-llm-from-scratch.svg" width="49%" alt="llm-lab-dz/llm-from-scratch"/></a>
+  <a href="https://github.com/llm-lab-dz/LLM-FineTune"><img src="https://raw.githubusercontent.com/WaelYTz/WaelYTz/output/repo-LLM-FineTune.svg" width="49%" alt="llm-lab-dz/LLM-FineTune"/></a>
 </p>
 
 <p align="center"><img src="assets/ut-h-recent.svg" width="100%" alt="Recent activity"/></p>
